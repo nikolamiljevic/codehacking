@@ -1,28 +1,35 @@
-/**
- * Created by edwin on 3/26/17.
+const mix = require('laravel-mix');
+
+/*
+ |--------------------------------------------------------------------------
+ | Mix Asset Management
+ |--------------------------------------------------------------------------
+ |
+ | Mix provides a clean, fluent API for defining some Webpack build steps
+ | for your Laravel application. By default, we are compiling the Sass
+ | file for the application as well as bundling up all the JS files.
+ |
  */
-const { mix } = require('laravel-mix');
 
-mix.js('resources/assets/js/app.js', 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css');
+mix.js('resources/js/app.js', 'public/js')
+   .sass('resources/sass/app.scss', 'public/css') 
 
+   .styles ([
+    'resources/css/libs/blog-post.css',
+    'resources/css/libs/bootstrap.css',
+    'resources/css/libs/font-awesome.css',
+    'resources/css/libs/metisMenu.css',
+    'resources/css/libs/sb-admin-2.css'
+       
 
+   ],'.public/css/libs.css')
 
-mix.styles([
-    'resources/assets/css/libs/blog-post.css',
-    'resources/assets/css/libs/bootstrap.css',
-    'resources/assets/css/libs/font-awesome.css',
-    'resources/assets/css/libs/metisMenu.css',
-    'resources/assets/css/libs/sb-admin-2.css'
+   .scripts([
+    'resources/js/libs/jquery.js',
+    'resources/js/libs/bootstrap.js',
+    'resources/js/libs/metisMenu.js',
+    'resources/js/sb-admin-2.js',
+    'resources/js/libs/jquery.js',
+    'resources/js/libs/scripts.js'
 
-], 'public/css/libs.css');
-
-mix.scripts([
-    'resources/assets/js/libs/jquery.js',
-    'resources/assets/js/libs/bootstrap.js',
-    'resources/assets/js/libs/metisMenu.js',
-    'resources/assets/js/sb-admin-2.js',
-    'resources/assets/js/libs/jquery.js',
-    'resources/assets/js/libs/scripts.js'
-
-], 'public/js/libs.js');
+   ],'.public/js/libs.js')
