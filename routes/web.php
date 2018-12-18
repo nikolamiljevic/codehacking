@@ -23,4 +23,15 @@ Route::get('/admin',function (){
     return view('admin.index');
 });
 
-Route::resource('admin/users','AdminUsersController');
+
+
+
+
+Route::group(['middleware'=>'admin'],function(){
+//user.php- function isAdmin then admin.php middleware making auth
+
+    Route::resource('admin/users','AdminUsersController');
+    Route::resource('admin/posts','AdminPostsController');
+});
+
+

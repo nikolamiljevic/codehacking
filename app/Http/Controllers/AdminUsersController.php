@@ -8,6 +8,7 @@ use App\Role;
 use App\Photo;
 use App\Http\Requests\UsersRequest;
 use App\Http\Requests\UsersEditRequest;
+use Illuminate\Support\Facades\Session;
 
 class AdminUsersController extends Controller
 {
@@ -18,8 +19,9 @@ class AdminUsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('created_at','desc')->get();
        return view('admin.users.index',compact('users'));
+      
     }
 
     /**
@@ -42,16 +44,23 @@ class AdminUsersController extends Controller
      */
     public function store(UsersRequest $request)
     {
-        if(trim($request->password) == ''){
-                $input = $request->except('password');
-        }else{
-          $input = $request->all();
-          $input['password'] = bcrypt($request->password);
+         if(trim($request->password) == ''){
+
+            $input = $request->except('password');
+
+        } else{
+
+
+            $input = $request->all();
+
+            $input['password'] = bcrypt($request->password);
+
         }
 
         
 
         if($file = $request->file('photo_id')) {
+
            $name = time(). $file->getClientOriginalName();
            $file->move('images',$name);
 
@@ -59,9 +68,8 @@ class AdminUsersController extends Controller
            $input['photo_id'] = $photo->id;
 
         }
-        
         User::create($input);
-        //User::create($request->all());
+        
         return redirect('/admin/users');
     }
 
@@ -98,7 +106,8 @@ class AdminUsersController extends Controller
      */
     public function update(UsersEditRequest $request, $id)
     {
-
+        $user = User::findOrFail($id);
+        
         if(trim($request->password) == ''){
             $input = $request->except('password');
         }else{
@@ -106,9 +115,6 @@ class AdminUsersController extends Controller
             $input['password'] = bcrypt($request->password);
         }
 
-
-        $user = User::findOrFail($id);
-        $input = $request->all();
 
         if($file = $request->file('photo_id')){
 
@@ -134,6 +140,14 @@ class AdminUsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        
+
+        $user->delete();
+
+        Session::flash('deleted_user','User deleted');
+        return redirect('/admin/users');
+
+
     }
 }

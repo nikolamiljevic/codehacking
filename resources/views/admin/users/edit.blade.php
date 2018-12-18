@@ -5,7 +5,7 @@
 <h1>Edit users</h1>
 <div class="row">
 <div class="col-sm-3">
-<img height='50' src="/images/{{$user->photo ? $user->photo->file : 'No photo'}}" alt="" class="img-responsive img-rounded">
+<img height='50' src="{{$user->photo ? $user->photo->file : 'No photo'}}" alt="" class="img-responsive img-rounded">
 </div>
 
 <div class="col-sm-9">
@@ -47,6 +47,14 @@
 </div>
 
 {!!Form::close()!!}
+
+
+    {!!Form::open(['method'=>'delete','action'=>['AdminUsersController@destroy',$user->id]])!!}
+
+    <div class="form-group">
+        {!!Form::submit('Delete user',['class'=>'btn btn-danger'])!!}
+    </div>
+    {!!Form::close()!!}
 
 </div>
 </div>  
