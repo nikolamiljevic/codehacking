@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<p>create posts</p>
+<h3>Create posts</h3>
 <div class="row">
 {!!Form::open(['method'=>'post','action'=>'AdminPostsController@store', 'files'=>true])!!}
 {!! csrf_field() !!}
@@ -12,7 +12,7 @@
 
 <div class="form-group">
     {!!Form::label('category_id','Category:')!!}
-    {!!Form::select('category_id',array(1=>'PHP' ,0=>'JavaScript'),null,['class'=>'form-control'])!!}
+    {!!Form::select('category_id',[''=>'Choose categories'] + $categories ,null,['class'=>'form-control'])!!}
 </div>
 
 <div class="form-group">
